@@ -20,12 +20,12 @@ public:
 		if (sConfigMgr->GetBoolDefault("RandomEnchants.OnLoot", true))
 			RollPossibleEnchant(player, item);
 	}
-	void OnCreateItem(Player* player, Item* item, uint32 count) override
+	void OnCreateItem(Player* player, Item* item, uint32 /*count*/) override
 	{
 		if (sConfigMgr->GetBoolDefault("RandomEnchants.OnCreate", true))
 			RollPossibleEnchant(player, item);
 	}
-	void OnQuestRewardItem(Player* player, Item* item, uint32 count) override
+	void OnQuestRewardItem(Player* player, Item* item, uint32 /*count*/) override
 	{
 		if(sConfigMgr->GetBoolDefault("RandomEnchants.OnQuestReward", true))
 			RollPossibleEnchant(player, item);
