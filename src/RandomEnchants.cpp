@@ -4,6 +4,7 @@
 #include "ScriptMgr.h"
 #include "Player.h"
 #include "Configuration/Config.h"
+#include "Chat.h"
 
 class RandomEnchantsPlayer : public PlayerScript{
 public:
@@ -14,17 +15,17 @@ public:
 		if (sConfigMgr->GetBoolDefault("RandomEnchants.AnnounceOnLogin", true))
             ChatHandler(player->GetSession()).SendSysMessage(sConfigMgr->GetStringDefault("RandomEnchants.OnLoginMessage", "This server is running a RandomEnchants Module.").c_str());
     }
-	void OnLootItem(Player* player, Item* item, uint32 count, uint64 /*lootguid*/) override
+	void OnLootItem(Player* player, Item* item, uint32 /*count*/, uint64 /*lootguid*/) override
 	{
 		if (sConfigMgr->GetBoolDefault("RandomEnchants.OnLoot", true))
 			RollPossibleEnchant(player, item);
 	}
-	void OnCreateItem(Player* player, Item* item, uint32 count) override
+	void OnCreateItem(Player* player, Item* item, uint32 /*count*/) override
 	{
 		if (sConfigMgr->GetBoolDefault("RandomEnchants.OnCreate", true))
 			RollPossibleEnchant(player, item);
 	}
-	void OnQuestRewardItem(Player* player, Item* item, uint32 count) override
+	void OnQuestRewardItem(Player* player, Item* item, uint32 /*count*/) override
 	{
 		if(sConfigMgr->GetBoolDefault("RandomEnchants.OnQuestReward", true))
 			RollPossibleEnchant(player, item);
@@ -33,7 +34,7 @@ public:
 	{
 		uint32 Quality = item->GetTemplate()->Quality;
 		uint32 Class = item->GetTemplate()->Class;
-		if ((Quality > 5 && Quality < 0)/*eliminates enchanting anything that isn't a recognized quality*/ || (Class != 2 && Class != 4)/*eliminates enchanting anything but weapons/armor*/)
+		if ((Quality > 5 && Quality < 1)/*eliminates enchanting anything that isn't a recognized quality*/ || (Class != 2 && Class != 4)/*eliminates enchanting anything but weapons/armor*/)
 			return;
 		int slotRand[3] = { -1, -1, -1 };
 		uint32 slotEnch[3] = { 0, 1, 5 };
@@ -138,9 +139,7 @@ public:
         if (!reload) {
             std::string conf_path = _CONF_DIR;
             std::string cfg_file = conf_path + "/RandomEnchants.conf";
-#ifdef WIN32
-				cfg_file = "RandomEnchants.conf";
-#endif
+
 			std::string cfg_def_file = cfg_file +".dist";
             sConfigMgr->LoadMore(cfg_def_file.c_str());
 
