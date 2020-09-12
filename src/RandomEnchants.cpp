@@ -34,8 +34,14 @@ public:
 	{
 		uint32 Quality = item->GetTemplate()->Quality;
 		uint32 Class = item->GetTemplate()->Class;
-		if ((Quality > 5 && Quality < 1)/*eliminates enchanting anything that isn't a recognized quality*/ || (Class != 2 && Class != 4)/*eliminates enchanting anything but weapons/armor*/)
+
+		if (
+            (Quality > 5 || Quality < 1) /* eliminates enchanting anything that isn't a recognized quality */ ||
+            (Class != 2 && Class != 4) /* eliminates enchanting anything but weapons/armor */)
+        {
 			return;
+        }
+
 		int slotRand[3] = { -1, -1, -1 };
 		uint32 slotEnch[3] = { 0, 1, 5 };
 		double roll1 = rand_chance();
@@ -124,7 +130,7 @@ public:
 			tier = 4;
 		else
 			tier = 5;
-		
+
 		QueryResult qr = WorldDatabase.PQuery("SELECT enchantID FROM item_enchantment_random_tiers WHERE tier='%d' AND exclusiveSubClass=NULL AND class='%s' OR exclusiveSubClass='%u' OR class='ANY' ORDER BY RAND() LIMIT 1", tier, ClassQueryString.c_str(), item->GetTemplate()->SubClass);
 		return qr->Fetch()[0].GetUInt32();
 	}
