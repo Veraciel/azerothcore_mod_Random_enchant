@@ -6,4 +6,4 @@ AC_ADD_SCRIPT("${CMAKE_RAND_ENCH_SRC_DIR}/RandomEnchants.cpp")
 
 AC_ADD_SCRIPT_LOADER("RandomEnchants" "${CMAKE_RAND_ENCH_SRC_DIR}/loader.h")
 
-CU_ADD_HOOK(AFTER_WORLDSERVER_CMAKE "${CMAKE_RAND_ENCH_SRC_DIR}/cmake/after_ws_install.cmake")
+AC_ADD_CONFIG_FILE("${CMAKE_CURRENT_LIST_DIR}/conf/RandomEnchants.conf.dist")
