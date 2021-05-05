@@ -15,7 +15,7 @@ public:
 		if (sConfigMgr->GetBoolDefault("RandomEnchants.AnnounceOnLogin", true))
             ChatHandler(player->GetSession()).SendSysMessage(sConfigMgr->GetStringDefault("RandomEnchants.OnLoginMessage", "This server is running a RandomEnchants Module.").c_str());
     }
-	void OnLootItem(Player* player, Item* item, uint32 /*count*/, uint64 /*lootguid*/) override
+	void OnLootItem(Player* player, Item* item, uint32 /*count*/, ObjectGuid /*lootguid*/) override
 	{
 		if (sConfigMgr->GetBoolDefault("RandomEnchants.OnLoot", true))
 			RollPossibleEnchant(player, item);
