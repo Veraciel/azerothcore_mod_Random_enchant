@@ -12,22 +12,22 @@ public:
     RandomEnchantsPlayer() : PlayerScript("RandomEnchantsPlayer") { }
 
     void OnLogin(Player* player) override {
-		if (sConfigMgr->GetBoolDefault("RandomEnchants.AnnounceOnLogin", true))
-            ChatHandler(player->GetSession()).SendSysMessage(sConfigMgr->GetStringDefault("RandomEnchants.OnLoginMessage", "This server is running a RandomEnchants Module.").c_str());
+		if (sConfigMgr->GetOption<bool>("RandomEnchants.AnnounceOnLogin", true))
+            ChatHandler(player->GetSession()).SendSysMessage(sConfigMgr->GetOption<std::string>("RandomEnchants.OnLoginMessage", "This server is running a RandomEnchants Module.").c_str());
     }
 	void OnLootItem(Player* player, Item* item, uint32 /*count*/, ObjectGuid /*lootguid*/) override
 	{
-		if (sConfigMgr->GetBoolDefault("RandomEnchants.OnLoot", true))
+		if (sConfigMgr->GetOption<bool>("RandomEnchants.OnLoot", true))
 			RollPossibleEnchant(player, item);
 	}
 	void OnCreateItem(Player* player, Item* item, uint32 /*count*/) override
 	{
-		if (sConfigMgr->GetBoolDefault("RandomEnchants.OnCreate", true))
+		if (sConfigMgr->GetOption<bool>("RandomEnchants.OnCreate", true))
 			RollPossibleEnchant(player, item);
 	}
 	void OnQuestRewardItem(Player* player, Item* item, uint32 /*count*/) override
 	{
-		if(sConfigMgr->GetBoolDefault("RandomEnchants.OnQuestReward", true))
+		if(sConfigMgr->GetOption<bool>("RandomEnchants.OnQuestReward", true))
 			RollPossibleEnchant(player, item);
 	}
 	void RollPossibleEnchant(Player* player, Item* item)
